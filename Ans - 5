@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Form Validation</title>
+  <style>
+    .error {
+      color: red;
+      margin-top: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Form Validation</h1>
+
+  <form id="myForm" onsubmit="validateForm(event)">
+    <div>
+      <label for="name">Name:</label>
+      <input type="text" id="name" required />
+      <span id="nameError" class="error"></span>
+    </div>
+
+    <div>
+      <label for="email">Email:</label>
+      <input type="email" id="email" required />
+      <span id="emailError" class="error"></span>
+    </div>
+
+    <div>
+      <label for="phone">Phone Number:</label>
+      <input type="tel" id="phone" required />
+      <span id="phoneError" class="error"></span>
+    </div>
+
+    <div>
+      <label for="password">Password:</label>
+      <input type="password" id="password" required />
+      <span id="passwordError" class="error"></span>
+    </div>
+
+    <div>
+      <label for="age">Age:</label>
+      <input type="number" id="age" required />
+      <span id="ageError" class="error"></span>
+    </div>
+
+    <div>
+      <label for="gender">Gender:</label>
+      <select id="gender" required>
+        <option value="">Select</option>
+        <option value="male">Male</option>
+        <option value="female">Female</option>
+        <option value="other">Other</option>
+      </select>
+      <span id="genderError" class="error"></span>
+    </div>
+
+    <div>
+      <label for="dob">Date of Birth:</label>
+      <input type="date" id="dob" required />
+      <span id="dobError" class="error"></span>
+    </div>
+
+    <div>
+      <label for="color">Favorite Color:</label>
+      <input type="color" id="color" required />
+      <span id="colorError" class="error"></span>
+    </div>
+
+    <button type="submit">Submit</button>
+  </form>
+
+  <script>
+    function validateForm(event) {
+      event.preventDefault();
+
+      // Reset errors
+      const errorElements = document.getElementsByClassName("error");
+      for (let i = 0; i < errorElements.length; i++) {
+        errorElements[i].textContent = "";
+      }
+
+      // Get form values
+      const name = document.getElementById("name").value;
+      const email = document.getElementById("email").value;
+      const phone = document.getElementById("phone").value;
+      const password = document.getElementById("password").value;
+      const age = document.getElementById("age").value;
+      const gender = document.getElementById("gender").value;
+      const dob = document.getElementById("dob").value;
+      const color = document.getElementById("color").value;
+
+      // Validate each field
+      if (name.trim() === "") {
+        document.getElementById("nameError").textContent = "Name is required";
+      }
+
+      if (email.trim() === "") {
+        document.getElementById("emailError").textContent = "Email is required";
+      } else if (!validateEmail(email)) {
+        document.getElementById("emailError").textContent = "Invalid email format";
+      }
+
+      if (phone.trim() === "") {
+        document.getElementById("phoneError").textContent = "Phone number is required";
+      } else if (!validatePhoneNumber(phone)) {
+        document.getElementById("phoneError").textContent = "Invalid phone number format";
+      }
+
+      if (password.trim() === "") {
+        document.getElementById("passwordError").textContent = "Password is required";
+      } else if (password.length < 6) {
+        document.getElementById("passwordError").textContent = "Password should be at least 6 characters long";
+      }
+
+      if (age.trim() === "") {
+        document.getElementById("ageError").textContent = "Age is required";
+      } else if (isNaN(age) || age < 0 || age > 150) {
+        document.getElementById("ageError").textContent = "Invalid age";
+      }
+
+      if (gender === "") {
+        document.getElementById("genderError").textContent = "Gender is required";
+      }
+
+      if (dob.trim() === "") {
+        document.getElementById("dobError").textContent = "Date of Birth is required";
+      }
+
+      if (color.trim() === "") {
+        document.getElementById("colorError").textContent = "Favorite color is required";
+      }
+
+      // If there are no errors, submit the form
+      if (document.querySelectorAll(".error").length === 0) {
+        alert("Form submitted successfully!");
+        document.getElementById("myForm").reset();
+      }
+    }
+
+    function validateEmail(email) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return emailRegex.test(email);
+    }
+
+    function validatePhoneNumber(phone) {
+      const phoneRegex = /^\d{10}$/;
+      return phoneRegex.test(phone);
+    }
+  </script>
+</body>
+</html>
